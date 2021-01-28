@@ -1,5 +1,7 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import { getManager, getRepository } from 'typeorm';
+import { getManager } from 'typeorm';
+import RESPONSE from '../constants/response';
+import { TYPE_ADMIN } from '../entity/type';
 import User from '../entity/user';
 import ApiError from '../services/api-error';
 import UserFactory from '../services/factory/user.factory';
@@ -14,7 +16,7 @@ import validateBody from './middlewares/validate-body';
 const route = Router();
 
 const user = (app: Router) => {
-    app.use('/user', route);
+    app.use('/users', route);
 
     /**
      * Create new admin user
@@ -26,13 +28,14 @@ const user = (app: Router) => {
             return;
         }
 
-        const { typeGka, roleGka, ...values } = req.body;
+        const { roleGka, ...values } = req.body;
 
         try {
-            await UserFactory.createAdmin(values, typeGka, roleGka);
+            await UserFactory.createAdmin(values, TYPE_ADMIN, roleGka);
 
-            res.json({});
-        } catch {
+            res.sendStatus(RESPONSE.CREATED);
+        } catch (e) {
+            console.log(e);
             next(ApiError.badRequest());
         }
     });
@@ -95,6 +98,20 @@ const user = (app: Router) => {
             }
         }
     );
+
+    /**
+     * List list of users
+     * @todo support limit, offset params
+     */
+    route.get('', isAdmin, async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const data = await RouterFunctions.getUsers();
+
+            res.json(data);
+        } catch {
+            next(ApiError.badRequest());
+        }
+    });
 
     /**
      * Get details for a specific user

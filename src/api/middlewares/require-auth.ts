@@ -1,6 +1,6 @@
 import TokenClient, { DecodedToken, EncodedToken } from '../../services/token-client';
 import { Response, NextFunction, Request } from 'express';
-import { createQueryBuilder, getManager, getRepository } from 'typeorm';
+import { getRepository } from 'typeorm';
 import User from '../../entity/user';
 import RESPONSE from '../../constants/response';
 
@@ -8,9 +8,9 @@ import RESPONSE from '../../constants/response';
 const unauthorisedPaths: Array<string> = [
     '/auth/login',
     '/auth/logout',
-    '/auth/registration-request',
     '/reset-password/request',
     '/reset-password/submit',
+    '/registration-requests/new',
 ];
 
 const requireAuth = async (req: Request, res: Response, next: NextFunction) => {

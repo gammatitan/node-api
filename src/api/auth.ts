@@ -2,8 +2,6 @@ import { Router, Request, Response, NextFunction } from 'express';
 import AuthManager from '../services/auth-manager';
 import ApiError from '../services/api-error';
 import RESPONSE from '../constants/response';
-import validateBody from './middlewares/validate-body';
-import createRegistrationRequestSchema from '../validation/create-registration-request.validation';
 
 const route = Router();
 const authMangager = new AuthManager();
@@ -11,20 +9,6 @@ const authMangager = new AuthManager();
 const auth = (app: Router) => {
     app.use('/auth', route);
 
-    /**
-     * Create registration requesst
-     */
-    route.post(
-        '/registration-request',
-        validateBody(createRegistrationRequestSchema),
-        async (req: Request, res: Response, next: NextFunction) => {
-            try {
-                res.json({});
-            } catch {
-                next(ApiError.badRequest());
-            }
-        }
-    );
     /**
      * Login
      */

@@ -9,6 +9,7 @@ import {
     AfterLoad,
     JoinColumn,
     OneToMany,
+    ManyToOne,
 } from 'typeorm';
 import { RoleGka, ROLE_CONTENT_MANAGER_GKA, ROLE_PARTNER_MANAGER_GKA, ROLE_SUPER_ADMIN_GKA } from './role';
 import Type, { TYPE_ADMIN, TYPE_PARTNER } from './type';
@@ -21,6 +22,11 @@ export type UserPassword = string;
 export type UserFirstName = string;
 export type UserLastName = string;
 export type UserPhoneNumber = string;
+export type UserAddressLine1 = string;
+export type UserAddressLine2 = string;
+export type UserCity = string;
+export type UserPostcode = string;
+export type UserFirmName = string;
 export type UserFullName = string;
 export type UserIsAdmin = boolean;
 export type UserIsPartner = boolean;
@@ -75,7 +81,7 @@ class User {
     @Column({ default: 0 })
     failedLoginAttempts: number;
 
-    @OneToOne(() => Type)
+    @ManyToOne(() => Type)
     @JoinColumn()
     type: Type;
 

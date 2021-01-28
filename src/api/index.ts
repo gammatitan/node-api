@@ -2,7 +2,8 @@ import { NextFunction, Request, Response, Router } from 'express';
 import auth from './auth';
 import resetPassword from './reset-password';
 import content from './content';
-import user from './user';
+import registrationRequests from './registration-requests';
+import users from './users';
 import requireAuth from './middlewares/require-auth';
 
 export default () => {
@@ -14,8 +15,9 @@ export default () => {
 
     auth(app);
     resetPassword(app);
-    user(app);
+    users(app);
     content(app);
+    registrationRequests(app);
 
     return app;
 };

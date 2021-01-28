@@ -2,6 +2,7 @@
 -- Database: ring
 --
 --
+USE ring;
 
 LOCK TABLES `role` WRITE;
 INSERT INTO `role` (`id`, `name`, `gka`) VALUES (1, 'Super Admin', 'super_admin');
