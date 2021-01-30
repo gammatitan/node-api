@@ -35,6 +35,7 @@ const MAX_LOGIN_ATTEMPTS: number = 5;
 export const MIN_PASSWORD_LENGTH: number = 6;
 export const REGISTRATION_STATUS_PENDING: string = 'pending';
 export const REGISTRATION_STATUS_APPROVED: string = 'approved';
+export const REGISTRATION_STATUS_DENIED: string = 'denied';
 
 @Entity()
 class User {
@@ -147,6 +148,10 @@ class User {
 
     public get isRegistrationApproved() {
         return this.registrationStatus === REGISTRATION_STATUS_APPROVED;
+    }
+
+    public get isRegistrationDenied() {
+        return this.registrationStatus === REGISTRATION_STATUS_DENIED;
     }
 
     private hasRole(roleGka: RoleGka): boolean {

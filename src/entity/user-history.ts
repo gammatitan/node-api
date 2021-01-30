@@ -9,6 +9,7 @@ export const USER_HISTORY_TYPE_DEACTIVATE: UserHistoryType = 'deactivate_account
 export const USER_HISTORY_TYPE_RESET_PASSWORD_REQUEST: UserHistoryType = 'reset_password_request';
 export const USER_HISTORY_TYPE_RESET_PASSWORD_COMPLETED: UserHistoryType = 'reset_password_completed';
 export const USER_HISTORY_TYPE_REGISTRAION_APPROVED: UserHistoryType = 'registration_approved';
+export const USER_HISTORY_TYPE_REGISTRAION_DENIED: UserHistoryType = 'registration_denied';
 
 @Entity()
 class UserHistory {

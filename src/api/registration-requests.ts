@@ -78,6 +78,25 @@ const registrationRequests = (app: Router) => {
             next(ApiError.badRequest(e));
         }
     });
+
+    /**
+     * Deny registration requesst
+     */
+    route.post('/:id/deny', isAdmin, async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const user: User = await getRepository(User).findOne(req.params.id);
+
+            if (!user) {
+                throw new Error('User not found');
+            }
+
+            await UserManager.denyRegistrationRequest(user, req.user);
+
+            res.json({});
+        } catch (e) {
+            next(ApiError.badRequest(e));
+        }
+    });
 };
 
 export default registrationRequests;
