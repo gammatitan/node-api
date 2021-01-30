@@ -12,7 +12,7 @@ const userDTO = (user: User) => {
         postcode: user.postcode,
         lastLogin: user.lastLogin,
         activated: user.activated,
-        registrationApproved: user.registrationApproved,
+        registrationStatus: user.registrationStatus,
         type: user.type,
         roles: user.rolesVirtualProperty,
         updatedAt: user.updatedAt,

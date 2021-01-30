@@ -31,8 +31,10 @@ export type UserFullName = string;
 export type UserIsAdmin = boolean;
 export type UserIsPartner = boolean;
 
-export const MIN_PASSWORD_LENGTH: number = 6;
 const MAX_LOGIN_ATTEMPTS: number = 5;
+export const MIN_PASSWORD_LENGTH: number = 6;
+export const REGISTRATION_STATUS_PENDING: string = 'pending';
+export const REGISTRATION_STATUS_APPROVED: string = 'approved';
 
 @Entity()
 class User {
@@ -75,8 +77,8 @@ class User {
     @Column({ default: true })
     activated: boolean;
 
-    @Column({ default: false })
-    registrationApproved: boolean;
+    @Column({ default: REGISTRATION_STATUS_PENDING })
+    registrationStatus: string;
 
     @Column({ default: 0 })
     failedLoginAttempts: number;
@@ -137,6 +139,14 @@ class User {
         }
 
         return [];
+    }
+
+    public get isRegistrationPending() {
+        return this.registrationStatus === REGISTRATION_STATUS_PENDING;
+    }
+
+    public get isRegistrationApproved() {
+        return this.registrationStatus === REGISTRATION_STATUS_APPROVED;
     }
 
     private hasRole(roleGka: RoleGka): boolean {

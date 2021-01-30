@@ -9,7 +9,7 @@ class Auth {
 
         try {
             const user: User = await userRepo.findOne({
-                select: ['id', 'password', 'activated', 'failedLoginAttempts', 'registrationApproved'],
+                select: ['id', 'password', 'activated', 'failedLoginAttempts', 'registrationStatus'],
                 where: { emailAddress },
             });
 
@@ -21,7 +21,7 @@ class Auth {
                 this.loginError('User not activated');
             }
 
-            if (!user.registrationApproved) {
+            if (user.isRegistrationPending) {
                 this.loginError('User registration is pending');
             }
 

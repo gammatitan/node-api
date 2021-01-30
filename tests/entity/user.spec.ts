@@ -1,6 +1,6 @@
 import Role, { ROLE_CONTENT_MANAGER_GKA, ROLE_PARTNER_MANAGER_GKA, ROLE_SUPER_ADMIN_GKA } from '../../src/entity/role';
 import Type, { TYPE_ADMIN, TYPE_PARTNER } from '../../src/entity/type';
-import User from '../../src/entity/user';
+import User, { REGISTRATION_STATUS_APPROVED, REGISTRATION_STATUS_PENDING } from '../../src/entity/user';
 import UserRole from '../../src/entity/user-role';
 
 describe('user', () => {
@@ -114,5 +114,27 @@ describe('user', () => {
 
             expect(testCase.expected).toBe(user.isLocked);
         });
+    });
+
+    test('#isRegistrationPending', () => {
+        const user = new User();
+
+        user.registrationStatus = REGISTRATION_STATUS_PENDING;
+
+        expect(user.isRegistrationPending).toBeTruthy();
+
+        user.registrationStatus = 'another status';
+
+        expect(user.isRegistrationPending).toBeFalsy();
+    });
+
+    test('#isRegistrationApproved', () => {
+        const user = new User();
+
+        expect(user.isRegistrationApproved).toBeFalsy();
+
+        user.registrationStatus = REGISTRATION_STATUS_APPROVED;
+
+        expect(user.isRegistrationApproved).toBeTruthy();
     });
 });

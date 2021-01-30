@@ -1,5 +1,5 @@
 import { getManager } from 'typeorm';
-import User from '../entity/user';
+import User, { REGISTRATION_STATUS_APPROVED } from '../entity/user';
 import {
     USER_HISTORY_TYPE_ACTIVATE,
     USER_HISTORY_TYPE_DEACTIVATE,
@@ -51,11 +51,11 @@ class UserManager {
             return;
         }
 
-        if (user.registrationApproved) {
+        if (user.isRegistrationApproved) {
             return;
         }
 
-        user.registrationApproved = true;
+        user.registrationStatus = REGISTRATION_STATUS_APPROVED;
 
         const userHistory = UserHistoryFactory.create(USER_HISTORY_TYPE_REGISTRAION_APPROVED, user, adminUser);
 

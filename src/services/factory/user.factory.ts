@@ -14,6 +14,7 @@ import User, {
     UserCity,
     UserPostcode,
     UserFirmName,
+    REGISTRATION_STATUS_APPROVED,
 } from '../../entity/user';
 import Type, { TypeGka, TYPE_PARTNER } from '../../entity/type';
 import UserRoleFactory from './use-role.factory';
@@ -45,7 +46,7 @@ class UserFactory {
         user.emailAddress = values.emailAddress;
         user.password = hashedPassword;
         user.phoneNumber = values.phoneNumber;
-        user.registrationApproved = true;
+        user.registrationStatus = REGISTRATION_STATUS_APPROVED;
 
         const type: Type = await getManager()
             .getRepository(Type)
@@ -81,7 +82,6 @@ class UserFactory {
         user.emailAddress = values.emailAddress;
         user.password = hashedPassword;
         user.phoneNumber = values.phoneNumber;
-        user.registrationApproved = false;
         user.addressLine1 = values.addressLine1;
         user.addressLine2 = values.addressLine2;
         user.city = values.city;

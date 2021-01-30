@@ -38,7 +38,7 @@ class RouterFunctions {
     static getRegistrationRequest = async (userId: UserId) => {
         const user: User = await getRepository(User)
             .createQueryBuilder('user')
-            .where({ registrationApproved: false, id: userId })
+            .where({ registrationStatus: 'pending', id: userId })
             .getOne();
 
         if (!user) {
@@ -51,7 +51,7 @@ class RouterFunctions {
     static getRegistrationRequests = async () => {
         const users: Array<User> = await getRepository(User)
             .createQueryBuilder('user')
-            .where({ registrationApproved: false })
+            .where({ registrationStatus: 'pending' })
             .getMany();
 
         if (!users) {
