@@ -13,6 +13,7 @@ import createAdminSchema from '../validation/create-admin.validation';
 import updatePasswordSchema from '../validation/update-password.schema';
 import updatePersonalAccountInfoSchema from '../validation/update-personal-account-info.schema';
 import isAdmin from './middlewares/is-admin';
+import isPartnerManager from './middlewares/is-partner-manager';
 import validateBody from './middlewares/validate-body';
 
 const route = Router();
@@ -23,24 +24,23 @@ const user = (app: Router) => {
     /**
      * Create new admin user
      */
-    route.post('', validateBody(createAdminSchema), async (req: Request, res: Response, next: NextFunction) => {
-        if (!req.user.isAdmin) {
-            next(ApiError.unauthorised());
+    route.post(
+        '',
+        isAdmin,
+        isPartnerManager,
+        validateBody(createAdminSchema),
+        async (req: Request, res: Response, next: NextFunction) => {
+            const { roleGka, ...values } = req.body;
 
-            return;
+            try {
+                await UserFactory.createAdmin(values, TYPE_ADMIN, roleGka);
+
+                res.sendStatus(RESPONSE.CREATED);
+            } catch (e) {
+                next(ApiError.badRequest());
+            }
         }
-
-        const { roleGka, ...values } = req.body;
-
-        try {
-            await UserFactory.createAdmin(values, TYPE_ADMIN, roleGka);
-
-            res.sendStatus(RESPONSE.CREATED);
-        } catch (e) {
-            console.log(e);
-            next(ApiError.badRequest());
-        }
-    });
+    );
 
     /**
      * Get logged in users account info

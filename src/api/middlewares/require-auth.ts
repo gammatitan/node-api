@@ -45,6 +45,8 @@ const requireAuth = async (req: Request, res: Response, next: NextFunction) => {
     const user: any = await getRepository(User)
         .createQueryBuilder('user')
         .leftJoinAndSelect('user.type', 'type')
+        .leftJoinAndSelect('user.userRoles', 'roles')
+        .leftJoinAndSelect('roles.role', 'role')
         .where('user.id = :id', { id: decodedToken.id })
         .getOne();
 
